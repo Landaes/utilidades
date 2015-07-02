@@ -6,7 +6,7 @@ String.prototype.capitalize = function(){
 
 // se usa así:
 // var myString = "hola soy un PULENTO script";
-// myString.capitalize() revuelve: "Hola Soy Un Pulento Script"
+// myString.capitalize() devuelve: "Hola Soy Un Pulento Script"
 // simplecito
 
 String.prototype.parseHashtag = function() {
@@ -47,7 +47,7 @@ var Randomize = {
         var keys = Randomize.getKeys(obj);
         keys.shuffle();
         for (var key in keys){
-            if (key === "shuffle") {continue;} // skip our prototype method
+            if (key === "shuffle") {continue;} // se salta el metodo del prototipo más arriba
             new_obj[keys[key]] = obj[keys[key]];
         }
         return new_obj;
@@ -80,7 +80,8 @@ var Randomize = {
 
 //////***Utilidades varias que uso siempre***///////
 
-// Las voy a poner dentro de la variable que uso siempre
+// Las voy a poner dentro de la variable Front que uso siempre
+// Todo funciona con JQuery y TweenMax
 
 var Front = {
 	utils = {
@@ -93,9 +94,9 @@ var Front = {
         videoPlayer:null,
         arrVideos:["WPJJ4jJbitg","ZTidn2dBYbY"],//Acá se pone un array de videos
         animando:false, //para los thumbs (si es que hay)
-        ponVideoYoutube:function(i, div){
+        ponVideoYoutube:function(i, divVideo){
             var st = '<iframe id="yt" width="100%" height="100%" src="https://www.youtube.com/embed/'+Front.yutub.arrVideos[i]+'?rel=0&showinfo=0&wmode=opaque&modestbranding=1&enablejsapi=1&version=3&playerapiid=ytplayer&controls=0" frameborder="0" allowfullscreen></iframe>';
-            div.prepend(st);
+            divVideo.prepend(st);//prepend y así evito pitearme contenido que ya haya dentro
             Front.yutub.videoPlayer = new YT.Player("yt", {
                 events: {
                     'onReady': Front.yutub.onPlayerReady,
@@ -115,30 +116,29 @@ var Front = {
                 console.log("play");
             }
             else if (e.data === 2) {
-                
                 console.log("pausa");
             }
         },
         createThumbnailsVideo:function(divContainer){
             Front.yutub.animando = false;
-            var thumbsContainer = divContainer;//$("#thumbsVideos .mascara .thumbs");
+            //divContainer = $("#thumbsVideos .mascara .thumbs"); por ejemplo
             
             for (var i = 0; i < Front.yutub.arrVideos.length; i++) {
-                thumbsContainer.append("<img src='http://img.youtube.com/vi/"+Front.yutub.arrVideos[i]+"/default.jpg' width='120px' id='thumb_y"+i+"' class='thumb' data='"+i+"'>");
+                divContainer.append("<img src='http://img.youtube.com/vi/"+Front.yutub.arrVideos[i]+"/default.jpg' width='120px' id='thumb_y"+i+"' class='thumb' data='"+i+"'>");
                 $("#thumb_y"+i).click(function(){
                     Front.yutub.ponVideoYoutube($(this).attr("data"));
                 });
             }
             Front.yutub.updateAnchoCarrusel(divContainer);
         },
-        updateAnchoCarrusel:function(){
-            var sep = parseInt($("#thumb_y1").css("margin-left"));
+        updateAnchoCarrusel:function(divContainer){
+            var sep = parseInt($("#thumb_y1").css("margin-left"));//pongo el 1 y no el 0 porque así sé que hay más de uno
             var w = (parseInt($("#thumb_y1").css("width"))+sep)*Front.yutub.arrVideos.length - sep;
             //$("#thumbsVideos .mascara .thumbs").css({"width":w+"px"});
-           	divContainer.css({"width":w+"px"});
+           divContainer.css({"width":w+"px"});
 
             //var ancho = parseInt($("#thumbsVideos .mascara").css("width"));
-            var ancho = parseInt(divContainer.parent().css("width"));
+            var ancho = parseInt(divContainer.parent().css("width"));//dejé comentado arriba pa que cachen si lo hiciera a mano
             var anchoTotal = parseInt(divContainer.css("width"));
 
             if(anchoTotal < ancho){
