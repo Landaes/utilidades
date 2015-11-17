@@ -54,7 +54,6 @@ var Reloj = {
 
 	},
 	creaCaracter:function(container,char,i, special, seEscala) {
-		// console.log("hijos: "+$(container).children("div").length + " i: "+i);
 		var childs = $(container).children("div").length;
 
 		if(i<childs){$(container +" .rn"+i).show(); return;}
@@ -163,7 +162,7 @@ var Reloj = {
 		
 	},
 	creaCuentaRegresiva:function(container, horas, minutos, segundos){
-		if(horas == undefined){			horas = 0;		}
+		if(horas == undefined){			horas = 0;	}
 		if(minutos == undefined){		minutos = 0;	}
 		if(segundos == undefined){		segundos = 0;	}
 		var fecha=new Date(); // esto es hoy a esta hora
@@ -173,13 +172,12 @@ var Reloj = {
 		fecha.setHours(h+horas); // le sumo la horas que quiero
 		fecha.setMinutes(m+minutos); // le sumo los minutos que quiero
 		fecha.setSeconds(s+segundos); // le sumo los segundos que quiero
-		// console.log(fecha);
+		
 		Reloj.creaReloj(container, true, fecha);
 	},
 	cuentaRegresiva:function(container, fecha){
-		// console.log("hola" + fecha);
 	    var hoy=new Date();
-	    var d=0;
+	    var d=0; // por si acaso lo necesitaramos
 	    var h=0;
 	    var m=0;
 	    var s=0;
@@ -204,10 +202,8 @@ var Reloj = {
 	    return h.toString()+":"+m.toString()+s.toString();
 	},
 	updateTexto:function(container,st){
-		//console.log("UPDATING: " + st);
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
-			//console.log("TCHAR: "+tempChars[i] + " CHARS: "+ Reloj.chars[i]);
 			if(tempChars[i] != Reloj.chars[i]){
 				Reloj.updateChar(container,i,tempChars[i]);
 				Reloj.chars[i] = tempChars[i];
@@ -215,7 +211,6 @@ var Reloj = {
 		}
 	},
 	updateChar:function(container, cualDiv, char){
-		// console.log("CUAL DIV: "+cualDiv);
 		var a1 = $(container +" .rn"+cualDiv+" .back .arr");
 		var a2 = $(container +" .rn"+cualDiv+" .back .aba");
 		var b1 = $(container +" .rn"+cualDiv+" .front .arr");
@@ -263,8 +258,7 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	},
 	dameLaHoraFutura:function(fecha){
-		// var today=new Date();
-		console.log(fecha);
+		//console.log(fecha);
 	    var h=fecha.getHours();
 	    var m=fecha.getMinutes();
 	    var s=fecha.getSeconds();
@@ -278,13 +272,13 @@ var Reloj = {
 };
 
 $(document).ready(function(){
-  // Si quieres crear un reloj normal
+  // Si quieres crear un reloj normal pasas el div contenedor
 	// Reloj.creaReloj("#container");
 	
 	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 2 horas y 3 segundos a partir de ahora)
 	Reloj.creaCuentaRegresiva("#container", 2, 0, 3);
 	
-	// si por otro lado quieres hacer lo mismo pero con cualquier letra en tu html debes tener un input text con id "text"
+	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
 	y llamas a la función init
 	// Reloj.init("#container");
 });
