@@ -7,7 +7,7 @@ var css = {
 	fixForCenter:"-20px",
 	marginTop:"0px",
 	marginLeft:"0px",
-	marginRigth:"5px",
+	marginRight:"5px",
 	marginBottom:"0px",
 	backgroundColor:"#282828",
 	backgroundColorLuz:"#494949",
@@ -75,7 +75,7 @@ var Reloj = {
 		$(container +" div").css({"margin":"0", "padding":"0"});
 		$(container +" p").css({"margin":css.fixForCenter +" 0 0 0", "padding":"0"});
 		
-		$(container +" .caracterContainer").css({"color":css.color, "height":css.height,"width":css.width,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRigth+" "+css.marginBottom+" "+css.marginLeft, "border":css.border +" solid "+css.borderColor,"border-radius":css.borderRadiusOuter, "box-shadow": css.shadow});
+		$(container +" .caracterContainer").css({"color":css.color, "height":css.height,"width":css.width,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRight+" "+css.marginBottom+" "+css.marginLeft, "border":css.border +" solid "+css.borderColor,"border-radius":css.borderRadiusOuter, "box-shadow": css.shadow});
 
 		$(container +" .back").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":css.borderColor,"border-radius":css.borderRadiusOuter});
 		$(container +" .front").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":css.borderColor,"border-radius":css.borderRadiusOuter});
@@ -106,7 +106,7 @@ var Reloj = {
 
 		$(container +" .aba .fix").css({"margin-top":"-"+(parseInt(css.height)*0.5 - parseInt(css.fixForCenter))+"px"});
 
-		$(container +" .caracterContainerSpecial").css({"color":css.color, "height":css.height,"width":css.widthSpecial,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRigth+" "+css.marginBottom+" "+css.marginLeft, "text-shadow": css.shadow});
+		$(container +" .caracterContainerSpecial").css({"color":css.color, "height":css.height,"width":css.widthSpecial,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRight+" "+css.marginBottom+" "+css.marginLeft, "text-shadow": css.shadow});
 
 		var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
 		var medio = parseInt(css.height)*0.5 + parseInt(css.border) - hSpecial*0.5 + parseInt(css.fixForCenterSpecial);
