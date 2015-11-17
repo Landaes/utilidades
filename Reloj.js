@@ -279,6 +279,6 @@ $(document).ready(function(){
 	Reloj.creaCuentaRegresiva("#container", 2, 0, 3);
 	
 	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
-	y llamas a la función init
+	// y llamas a la función init
 	// Reloj.init("#container");
 });
