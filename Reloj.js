@@ -43,8 +43,12 @@ var css = {
 	altoLineaMedio:2,
 	fontSizeCharacterSpecial:"40px",
 	fixForCenterSpecial:"-5px",
-	escalaNumFinales:0.5
+	escalaNumFinales:0.5,
+	arrImg:"img/backArr.png",
+	abaImg:"img/backAba.png"
 };
+
+
 
 var tiempoGiro = 0.8;
 
@@ -76,6 +80,7 @@ var Reloj = {
 
 	},
 	creaCaracter:function(container,char,i, special, seEscala) {
+		// console.log("hijos: "+$(container).children("div").length + " i: "+i);
 		var childs = $(container).children("div").length;
 
 		if(i<childs){$(container +" .rn"+i).show(); return;}
@@ -111,7 +116,10 @@ var Reloj = {
 			"overflow":"hidden",
 			"margin-top":"0",
 			"border-radius":css.borderRadiusInner +" "+css.borderRadiusInner+" 0 0",
-			"padding":css.paddingTop+" 0 0 0"
+			"padding":css.paddingTop+" 0 0 0",
+			"background-image": "url('"+css.arrImg+"')",
+    		"background-position": "bottom center",
+    		"background-size": "cover"
 			});
 
 		$(container +" .aba").css({
@@ -123,7 +131,10 @@ var Reloj = {
 			"overflow":"hidden",
 			"margin-top":(parseInt(css.height)*0.5)+"px",
 			"border-radius":"0 0 "+css.borderRadiusInner +" "+css.borderRadiusInner,
-			"padding":css.paddingTop+" 0 0 0"
+			"padding":css.paddingTop+" 0 0 0",
+			"background-image": "url('"+css.abaImg+"')",
+    		"background-position": "top center",
+    		"background-size": "cover"
 		});
 
 		$(container +" .aba .fix").css({"margin-top":"-"+(parseInt(css.height)*0.5 - parseInt(css.fixForCenter))+"px"});
@@ -184,7 +195,7 @@ var Reloj = {
 		
 	},
 	creaCuentaRegresiva:function(container, horas, minutos, segundos){
-		if(horas == undefined){			horas = 0;	}
+		if(horas == undefined){			horas = 0;		}
 		if(minutos == undefined){		minutos = 0;	}
 		if(segundos == undefined){		segundos = 0;	}
 		var fecha=new Date(); // esto es hoy a esta hora
@@ -194,12 +205,13 @@ var Reloj = {
 		fecha.setHours(h+horas); // le sumo la horas que quiero
 		fecha.setMinutes(m+minutos); // le sumo los minutos que quiero
 		fecha.setSeconds(s+segundos); // le sumo los segundos que quiero
-		
+		// console.log(fecha);
 		Reloj.creaReloj(container, true, fecha);
 	},
 	cuentaRegresiva:function(container, fecha){
+		// console.log("hola" + fecha);
 	    var hoy=new Date();
-	    var d=0; // por si acaso lo necesitaramos
+	    var d=0;
 	    var h=0;
 	    var m=0;
 	    var s=0;
@@ -224,8 +236,10 @@ var Reloj = {
 	    return h.toString()+":"+m.toString()+s.toString();
 	},
 	updateTexto:function(container,st){
+		//console.log("UPDATING: " + st);
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
+			//console.log("TCHAR: "+tempChars[i] + " CHARS: "+ Reloj.chars[i]);
 			if(tempChars[i] != Reloj.chars[i]){
 				Reloj.updateChar(container,i,tempChars[i]);
 				Reloj.chars[i] = tempChars[i];
@@ -233,6 +247,7 @@ var Reloj = {
 		}
 	},
 	updateChar:function(container, cualDiv, char){
+		// console.log("CUAL DIV: "+cualDiv);
 		var a1 = $(container +" .rn"+cualDiv+" .back .arr");
 		var a2 = $(container +" .rn"+cualDiv+" .back .aba");
 		var b1 = $(container +" .rn"+cualDiv+" .front .arr");
@@ -280,7 +295,8 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	},
 	dameLaHoraFutura:function(fecha){
-		//console.log(fecha);
+		// var today=new Date();
+		console.log(fecha);
 	    var h=fecha.getHours();
 	    var m=fecha.getMinutes();
 	    var s=fecha.getSeconds();
