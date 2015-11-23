@@ -23,7 +23,7 @@ si quiere contactarme:
 var css = {
 	fontSize:"130px",
 	paddingTop:"0px",
-	height:"132px",
+	height:"134px",
 	width:"96px",
 	widthSpecial:"20px",
 	fixForCenter:"-20px",
