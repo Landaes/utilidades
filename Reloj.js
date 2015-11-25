@@ -1,60 +1,72 @@
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
-
  Copyright (C) 2015 Luis Donaire Casanova <donaire.luis@gmail.com>
-
  Everyone is permitted to copy and distribute verbatim or modified
  copies of this license document, and changing it is allowed as long
  as the name is changed.
-
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
   0. You just DO WHAT THE FUCK YOU WANT TO.
   
  nov 2015
 Creada por su servidor, su amigable y guapo vecino el Formidable Señor Landaes.
-si quiere contactarme:
+si quieres contactarme:
 	donaire.luis@gmail.com
 	@luisinlandaes
+
+⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
+	UPDATES:
+	25 nov 2015:
+	En el caso del reloj en cuenta regresiva, hice que despachara un evento cuando termina.
+	Se accede de la siguiente forma:
+
+		Si quieres acceder desde el body: (es el comportamiento por default)
+			document.body.addEventListener("END_TIME_REVERSED", Reloj.onStopTime, true);
+
+		Si quieres que el listener esté más acotado, entonces comenta la línea anterior en el código y en la función 'cuentaRegresiva' descomenta:
+
+		 // document.getElementById(container.substring(1)).addEventListener("END_TIME_REVERSED", Reloj.onStopTime, false);
+
+		En ambos casos el listener es Reloj.onStopTime, pero por supuesto, tu puedes poner el listener que se te dé la gana.
+
+⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 */
 
+
 var css = {
-	fontSize:"130px",
-	paddingTop:"0px",
-	height:"134px",
-	width:"96px",
-	widthSpecial:"20px",
-	fixForCenter:"-20px",
-	marginTop:"0px",
-	marginLeft:"0px",
-	marginRight:"5px",
-	marginBottom:"0px",
-	backgroundColor:"#282828",
-	backgroundColorLuz:"#494949",
-	backgroundColorSombra:"#060606",
-	border:"4px",
-	borderColor:"#000",
-	borderRadiusInner:"6px",
-	borderRadiusOuter:"10px",
-	shadow:"2px 2px 10px rgba(0, 0, 0, 0.6)",
-	color:"#FFFFFF",
-	altoLineaMedio:2,
-	fontSizeCharacterSpecial:"40px",
-	fixForCenterSpecial:"-5px",
-	escalaNumFinales:0.5,
-	arrImg:"img/backArr.png",
-	abaImg:"img/backAba.png"
+	fontSize:"132px",				// tamaño de la fuente
+	paddingTop:"0px",				// para la meyor parte de las fuentes dejar en 0
+	height:"132px",					// altura del rectángulo interior
+	width:"96px",					// ancho del rectángulo interior
+	fixForCenter:"-20px",				// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
+	marginTop:"0px",				// casi siempre en 0, distancia entre rectángulos
+	marginLeft:"0px",				// casi siempre en 0, distancia entre rectángulos
+	marginRight:"5px",				// distancia entre rectángulos
+	marginBottom:"0px",				// casi siempre en 0, distancia entre rectángulos
+	backgroundColor:"#282828",			// color dominante del rectángulo (puede ser rgba())
+	backgroundColorLuz:"#494949",			// color ligeramente brillante del rectángulo (puede ser rgba())
+	backgroundColorSombra:"#060606",		// color ligeramente oscuro del rectángulo (puede ser rgba())
+	border:"4px",					// tamaño del borde
+	borderColor:"#000",				// color del borde
+	borderRadiusInner:"6px",			// radio de borde del rectángulo interno
+	borderRadiusOuter:"10px",			// radio de borde del rectángulo externo (lo hice así para conseguir distintos efectos);
+	shadow:"2px 2px 10px rgba(0, 0, 0, 0.6)",	// parametros de box shadow del rectángulo externo
+	color:"#FFFFFF",				// color de la fuente
+	altoLineaMedio:2,				// espacio de separación entre la parte de arriba y la de abajo (puede ser 0)
+	fontSizeCharacterSpecial:"40px",		// tamaño fuente del caracter especial (en casi todos los casos es ':' sin las comillas)
+	fixForCenterSpecial:"-5px",			// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
+	widthSpecial:"20px",				// ancho del caracter especial (en casi todos los casos es ':' sin las comillas)
+	escalaNumFinales:0.5,				// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
+	arrImg:"img/backArr.png",			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
+	abaImg:"img/backAba.png"			// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
 };
 
-
-
-var tiempoGiro = 0.8;
+var tiempoGiro = 0.8;					// valor en segundos, recomiendo no cambiar (con otros valores queda raro).
 
 var Reloj = {
 	chars:[],
-	init:function(container){
+	texto:function(container){
 		$("#text").bind("keydown",function(e) {
 			// e.preventDefault();
 		});
@@ -80,7 +92,6 @@ var Reloj = {
 
 	},
 	creaCaracter:function(container,char,i, special, seEscala) {
-		// console.log("hijos: "+$(container).children("div").length + " i: "+i);
 		var childs = $(container).children("div").length;
 
 		if(i<childs){$(container +" .rn"+i).show(); return;}
@@ -144,7 +155,6 @@ var Reloj = {
 		var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
 		var medio = parseInt(css.height)*0.5 + parseInt(css.border) - hSpecial*0.5 + parseInt(css.fixForCenterSpecial);
 		$(container +" .caracterContainerSpecial .pSpecial").css({"text-align":"center", "font-size":css.fontSizeCharacterSpecial, "margin-top":medio+"px"});
-
 		
 		$(container +" .escalado").each(function(i){
 			var val = 1 - css.escalaNumFinales;
@@ -187,12 +197,10 @@ var Reloj = {
 	},
 	intervalRegresivo: null,
 	updateRegresivo:function(container, fecha){
-		//console.log(fecha);
 		Reloj.updateTexto(container, Reloj.cuentaRegresiva(container, fecha));
 		if(Reloj.intervalRegresivo == null){
 			Reloj.intervalRegresivo = setInterval(function(){Reloj.updateRegresivo(container, fecha);},1000);
 		}
-		
 	},
 	creaCuentaRegresiva:function(container, horas, minutos, segundos){
 		if(horas == undefined){			horas = 0;		}
@@ -211,14 +219,14 @@ var Reloj = {
 	cuentaRegresiva:function(container, fecha){
 		// console.log("hola" + fecha);
 	    var hoy=new Date();
-	    var d=0;
+	    var d=0; //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    var h=0;
 	    var m=0;
 	    var s=0;
 
 	    if (fecha>hoy){
 	        var diferencia=(fecha.getTime()-hoy.getTime())/1000;
-	        d=Math.floor(diferencia/86400);
+	        d=Math.floor(diferencia/86400);//por si acaso ↦ voy a implementarlo con días la próxima vez
 	        diferencia=diferencia-(86400*d);
 	        h=Math.floor(diferencia/3600);
 	        diferencia=diferencia-(3600*h);
@@ -227,19 +235,19 @@ var Reloj = {
 	        s=Math.floor(diferencia);
 	    } else {
 	    	clearTimeout(Reloj.intervalRegresivo);
-	    	console.log("ya ha pasado el tiempo límite");
+	    	var despacha = new CustomEvent("END_TIME_REVERSED");
+            // document.getElementById(container.substring(1)).addEventListener("END_TIME_REVERSED", Reloj.onStopTime, false);
+            document.getElementById(container.substring(1)).dispatchEvent(despacha);
 	    }
-	    d = Reloj.daFormatoHora(d); // por si acaso
+	    d = Reloj.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    h = Reloj.daFormatoHora(h);
 	    m = Reloj.daFormatoHora(m);
 	    s = Reloj.daFormatoHora(s);
 	    return h.toString()+":"+m.toString()+s.toString();
 	},
 	updateTexto:function(container,st){
-		//console.log("UPDATING: " + st);
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
-			//console.log("TCHAR: "+tempChars[i] + " CHARS: "+ Reloj.chars[i]);
 			if(tempChars[i] != Reloj.chars[i]){
 				Reloj.updateChar(container,i,tempChars[i]);
 				Reloj.chars[i] = tempChars[i];
@@ -247,7 +255,6 @@ var Reloj = {
 		}
 	},
 	updateChar:function(container, cualDiv, char){
-		// console.log("CUAL DIV: "+cualDiv);
 		var a1 = $(container +" .rn"+cualDiv+" .back .arr");
 		var a2 = $(container +" .rn"+cualDiv+" .back .aba");
 		var b1 = $(container +" .rn"+cualDiv+" .front .arr");
@@ -295,7 +302,6 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	},
 	dameLaHoraFutura:function(fecha){
-		// var today=new Date();
 		console.log(fecha);
 	    var h=fecha.getHours();
 	    var m=fecha.getMinutes();
@@ -306,17 +312,43 @@ var Reloj = {
 	    // return h+":"+m+":"+s;
 	    return h.toString()+":"+m.toString()+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
+	},
+	onStopTime:function(e){
+		e = e || event;
+		console.log(e);
+		alert("fin del tiempo");
+		//var target = e.target || e.srcElement;
+		//console.log(target);
 	}
 };
 
+document.body.addEventListener("END_TIME_REVERSED", Reloj.onStopTime, true);
+
+
+// ↓↓↓↓ lo siguiente es un polyfill para explorer 9 en adelante ↓↓↓↓
+(function () {
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+// ↑↑↑↑ hasta acá ↑↑↑↑
+
+
 $(document).ready(function(){
-  // Si quieres crear un reloj normal pasas el div contenedor
+	// Si quieres crear un reloj normal pasas el div contenedor
 	// Reloj.creaReloj("#container");
 	
-	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 2 horas y 3 segundos a partir de ahora)
-	Reloj.creaCuentaRegresiva("#container", 2, 0, 3);
+	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 0 minutos y 3 segundos a partir de ahora)
+	Reloj.creaCuentaRegresiva("#container", 0, 0, 3);
 	
 	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
-	// y llamas a la función init
-	// Reloj.init("#container");
+	// y llamas a la función texto
+	// Reloj.texto("#container");
 });
