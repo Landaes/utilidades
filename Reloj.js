@@ -17,6 +17,9 @@ si quieres contactarme:
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 	UPDATES:
+	20 enero 2016
+	Eliminé todas las referencias explícitas del tipo: Reloj.nombreFuncion, por this.nombreFuncion dentro del mismo objeto.
+	
 	25 nov 2015:
 	En el caso del reloj en cuenta regresiva, hice que despachara un evento cuando termina.
 	Se accede de la siguiente forma:
@@ -32,46 +35,48 @@ si quieres contactarme:
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 */
-
-
+"use strict";
+// console.log("e");
 var css = {
-	fontSize:"132px",				// tamaño de la fuente
-	paddingTop:"0px",				// para la meyor parte de las fuentes dejar en 0
-	height:"132px",					// altura del rectángulo interior
-	width:"96px",					// ancho del rectángulo interior
-	fixForCenter:"-20px",				// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
-	marginTop:"0px",				// casi siempre en 0, distancia entre rectángulos
-	marginLeft:"0px",				// casi siempre en 0, distancia entre rectángulos
-	marginRight:"5px",				// distancia entre rectángulos
-	marginBottom:"0px",				// casi siempre en 0, distancia entre rectángulos
-	backgroundColor:"#282828",			// color dominante del rectángulo (puede ser rgba())
-	backgroundColorLuz:"#494949",			// color ligeramente brillante del rectángulo (puede ser rgba())
-	backgroundColorSombra:"#060606",		// color ligeramente oscuro del rectángulo (puede ser rgba())
-	border:"4px",					// tamaño del borde
-	borderColor:"#000",				// color del borde
-	borderRadiusInner:"6px",			// radio de borde del rectángulo interno
-	borderRadiusOuter:"10px",			// radio de borde del rectángulo externo (lo hice así para conseguir distintos efectos);
+	fontSize:"132px",							// tamaño de la fuente
+	paddingTop:"0px",							// para la meyor parte de las fuentes dejar en 0
+	height:"132px",								// altura del rectángulo interior
+	width:"96px",								// ancho del rectángulo interior
+	fixForCenter:"-20px",						// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
+	marginTop:"0px",							// casi siempre en 0, distancia entre rectángulos
+	marginLeft:"0px",							// casi siempre en 0, distancia entre rectángulos
+	marginRight:"5px",							// distancia entre rectángulos
+	marginBottom:"0px",							// casi siempre en 0, distancia entre rectángulos
+	backgroundColor:"#282828",					// color dominante del rectángulo (puede ser rgba())
+	backgroundColorLuz:"#494949",				// color ligeramente brillante del rectángulo (puede ser rgba())
+	backgroundColorSombra:"#060606",			// color ligeramente oscuro del rectángulo (puede ser rgba())
+	border:"4px",								// tamaño del borde
+	borderColor:"#000",							// color del borde
+	borderRadiusInner:"6px",					// radio de borde del rectángulo interno
+	borderRadiusOuter:"10px",					// radio de borde del rectángulo externo (lo hice así para conseguir distintos efectos);
 	shadow:"2px 2px 10px rgba(0, 0, 0, 0.6)",	// parametros de box shadow del rectángulo externo
-	color:"#FFFFFF",				// color de la fuente
-	altoLineaMedio:2,				// espacio de separación entre la parte de arriba y la de abajo (puede ser 0)
-	fontSizeCharacterSpecial:"40px",		// tamaño fuente del caracter especial (en casi todos los casos es ':' sin las comillas)
-	fixForCenterSpecial:"-5px",			// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
-	widthSpecial:"20px",				// ancho del caracter especial (en casi todos los casos es ':' sin las comillas)
-	escalaNumFinales:0.5,				// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
-	arrImg:"img/backArr.png",			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
-	abaImg:"img/backAba.png"			// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
+	color:"#FFFFFF",							// color de la fuente
+	altoLineaMedio:2,							// espacio de separación entre la parte de arriba y la de abajo (puede ser 0)
+	fontSizeCharacterSpecial:"40px",			// tamaño fuente del caracter especial (en casi todos los casos es ':' sin las comillas)
+	fixForCenterSpecial:"-5px",					// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
+	widthSpecial:"20px",						// ancho del caracter especial (en casi todos los casos es ':' sin las comillas)
+	escalaNumFinales:0.5,						// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
+	arrImg:"img/backArr.png",					// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
+	abaImg:"img/backAba.png"					// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
 };
 
-var tiempoGiro = 0.8;					// valor en segundos, recomiendo no cambiar (con otros valores queda raro).
+var tiempoGiro = 0.8;							// valor en segundos, recomiendo no cambiar (con otros valores queda raro).
 
 var Reloj = {
 	chars:[],
 	texto:function(container){
-		$("#text").bind("keydown",function(e) {
+		// console.log(this);
+		$("#text").keydown(function(e) {
 			// e.preventDefault();
 		});
 
-		$("#text").bind("keyup",function(e) {
+		$("#text").keyup(function(e) {
+			// console.log(this);
 			e.preventDefault();
 			var text = $("#text").val();
 			var chars = text.split("");
@@ -79,16 +84,16 @@ var Reloj = {
 			for (var j = 0; j < $(container).children("div").length; j++) {
 				$(container + " .rn"+j).hide();
 				if(j > chars.length){
-					Reloj.chars[j] = " ";
-					Reloj.updateChar(container,j," ");
+					this.chars[j] = " ";
+					this.updateChar(container,j," ");
 				}
 			}
 			for (var i = 0; i < chars.length; i++) {
-				console.log("TEXT: "+text+" i: "+i);
-				Reloj.creaCaracter(container,chars[i], i);
+				// console.log("TEXT: "+text+" i: "+i);
+				this.creaCaracter(container,chars[i], i);
 			}
-			Reloj.updateTexto(container,text);
-		});
+			this.updateTexto(container,text);
+		}.bind(this));
 
 	},
 	creaCaracter:function(container,char,i, special, seEscala) {
@@ -106,7 +111,7 @@ var Reloj = {
 			$(container+" .rn"+i).append('<p class="pSpecial">'+char+'</p>');
 		}
 		
-		Reloj.csseame(container);
+		this.csseame(container);
 	},
 	csseame:function(container){
 		// reset previo
@@ -166,46 +171,56 @@ var Reloj = {
 	},
 	creaReloj:function(container, regresivo, fecha){
 		if(regresivo){
-			Reloj.chars = Reloj.dameLaHoraFutura(fecha).split("");
+			this.chars = this.dameLaHoraFutura(fecha).split("");
 		} else {
-			Reloj.chars = Reloj.dameLaHora().split("");
+			this.chars = this.dameLaHora().split("");
 		}
 
-		for (var i = 0; i < Reloj.chars.length; i++) {
-			if(Reloj.chars[i] == ":"){
-				Reloj.creaCaracter(container,Reloj.chars[i], i, true);
+		for (var i = 0; i < this.chars.length; i++) {
+			if(this.chars[i] == ":"){
+				this.creaCaracter(container,this.chars[i], i, true);
 			} else {
-				console.log(i + " / " + Reloj.chars.length);
-				if(i == Reloj.chars.length-2 || i == Reloj.chars.length-1){
-					Reloj.creaCaracter(container,Reloj.chars[i], i, false, true);
+				console.log(i + " / " + this.chars.length);
+				if(i == this.chars.length-2 || i == this.chars.length-1){
+					this.creaCaracter(container,this.chars[i], i, false, true);
 				} else {
-					Reloj.creaCaracter(container,Reloj.chars[i], i);
+					this.creaCaracter(container,this.chars[i], i);
 				}
 			}
 		}
-		Reloj.csseame(container);
+		this.csseame(container);
 
 		if(regresivo){
-			Reloj.updateRegresivo(container, fecha);
+			
+			this.updateRegresivo(container, fecha);
 		} else {
-			Reloj.updateHora(container);
+			this.updateHora(container);
 		}
 	},
 	updateHora:function(container){
-		Reloj.updateTexto(container,Reloj.dameLaHora());
-		var t = setTimeout(function(){Reloj.updateHora(container);},1000);
+		this.updateTexto(container,this.dameLaHora());
+		var fn = function(){
+			this.updateHora(container);
+		};
+		var t = setTimeout(fn.bind(this),1000);
 	},
 	intervalRegresivo: null,
 	updateRegresivo:function(container, fecha){
-		Reloj.updateTexto(container, Reloj.cuentaRegresiva(container, fecha));
-		if(Reloj.intervalRegresivo == null){
-			Reloj.intervalRegresivo = setInterval(function(){Reloj.updateRegresivo(container, fecha);},1000);
+		// console.log("antes");
+		this.updateTexto(container, this.cuentaRegresiva(container, fecha));
+		console.log(this);
+		if(this.intervalRegresivo === null){
+			var fn = function(){
+				this.updateRegresivo(container, fecha);
+			};
+			
+			this.intervalRegresivo = setInterval(fn.bind(this),1000);
 		}
 	},
 	creaCuentaRegresiva:function(container, horas, minutos, segundos){
-		if(horas == undefined){			horas = 0;		}
-		if(minutos == undefined){		minutos = 0;	}
-		if(segundos == undefined){		segundos = 0;	}
+		if(horas === undefined){			horas = 0;		}
+		if(minutos === undefined){		minutos = 0;	}
+		if(segundos === undefined){		segundos = 0;	}
 		var fecha=new Date(); // esto es hoy a esta hora
 		var h=fecha.getHours();
 		var m=fecha.getMinutes();
@@ -214,10 +229,10 @@ var Reloj = {
 		fecha.setMinutes(m+minutos); // le sumo los minutos que quiero
 		fecha.setSeconds(s+segundos); // le sumo los segundos que quiero
 		// console.log(fecha);
-		Reloj.creaReloj(container, true, fecha);
+		this.creaReloj(container, true, fecha);
 	},
 	cuentaRegresiva:function(container, fecha){
-		// console.log("hola" + fecha);
+		// console.log("fecha " + fecha);
 	    var hoy=new Date();
 	    var d=0; //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    var h=0;
@@ -234,23 +249,23 @@ var Reloj = {
 	        diferencia=diferencia-(60*m);
 	        s=Math.floor(diferencia);
 	    } else {
-	    	clearTimeout(Reloj.intervalRegresivo);
+	    	clearTimeout(this.intervalRegresivo);
 	    	var despacha = new CustomEvent("END_TIME_REVERSED");
             // document.getElementById(container.substring(1)).addEventListener("END_TIME_REVERSED", Reloj.onStopTime, false);
             document.getElementById(container.substring(1)).dispatchEvent(despacha);
 	    }
-	    d = Reloj.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
-	    h = Reloj.daFormatoHora(h);
-	    m = Reloj.daFormatoHora(m);
-	    s = Reloj.daFormatoHora(s);
+	    d = this.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
+	    h = this.daFormatoHora(h);
+	    m = this.daFormatoHora(m);
+	    s = this.daFormatoHora(s);
 	    return h.toString()+":"+m.toString()+s.toString();
 	},
 	updateTexto:function(container,st){
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
 			if(tempChars[i] != Reloj.chars[i]){
-				Reloj.updateChar(container,i,tempChars[i]);
-				Reloj.chars[i] = tempChars[i];
+				this.updateChar(container,i,tempChars[i]);
+				this.chars[i] = tempChars[i];
 			}
 		}
 	},
@@ -294,9 +309,9 @@ var Reloj = {
 	    var h=today.getHours();
 	    var m=today.getMinutes();
 	    var s=today.getSeconds();
-	    h = Reloj.daFormatoHora(h);
-	    m = Reloj.daFormatoHora(m);
-	    s = Reloj.daFormatoHora(s);
+	    h = this.daFormatoHora(h);
+	    m = this.daFormatoHora(m);
+	    s = this.daFormatoHora(s);
 	    // return h+":"+m+":"+s;
 	    return h.toString()+":"+m.toString()+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
@@ -306,9 +321,9 @@ var Reloj = {
 	    var h=fecha.getHours();
 	    var m=fecha.getMinutes();
 	    var s=fecha.getSeconds();
-	    h = Reloj.daFormatoHora(h);
-	    m = Reloj.daFormatoHora(m);
-	    s = Reloj.daFormatoHora(s);
+	    h = this.daFormatoHora(h);
+	    m = this.daFormatoHora(m);
+	    s = this.daFormatoHora(s);
 	    // return h+":"+m+":"+s;
 	    return h.toString()+":"+m.toString()+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
@@ -345,8 +360,8 @@ $(document).ready(function(){
 	// Si quieres crear un reloj normal pasas el div contenedor
 	// Reloj.creaReloj("#container");
 	
-	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 0 minutos y 3 segundos a partir de ahora)
-	Reloj.creaCuentaRegresiva("#container", 0, 0, 3);
+	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 0 minutos y 10 segundos a partir de ahora)
+	Reloj.creaCuentaRegresiva("#container", 0, 0, 10);
 	
 	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
 	// y llamas a la función texto
