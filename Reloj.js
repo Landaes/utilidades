@@ -385,10 +385,10 @@ var Reloj = {
 
 $(document).ready(function(){
 	// Si quieres crear un reloj normal pasas el div contenedor
-	// Reloj.creaReloj("#container");
+	Reloj.creaReloj("#container");
 	
 	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 1 minutos y 10 segundos a partir de ahora)
-	Reloj.creaCuentaRegresiva("#container", 0, 1, 10, function(){alert("Feliz año nuevo");}); 
+	// Reloj.creaCuentaRegresiva("#container", 0, 1, 10, function(){alert("Feliz año nuevo");}); 
 	
 	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
 	// y llamas a la función texto
