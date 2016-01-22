@@ -111,10 +111,10 @@ var Reloj = {
 			this.css.escalaNumFinales = (css.escalaNumFinales !== undefined) ? css.escalaNumFinales :(this.css.escalaNumFinales !== undefined) ? this.css.escalaNumFinales :0.5;
 
 			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
-			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"img/backArr.png";
+			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"https://cloud.githubusercontent.com/assets/2848147/11349728/6e8bf3be-920c-11e5-82d9-651bca022e64.png";
 
 			// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
-			this.css.abaImg = (css.abaImg !== undefined) ? css.abaImg :(this.css.abaImg !== undefined) ? this.css.abaImg :"img/backAba.png";
+			this.css.abaImg = (css.abaImg !== undefined) ? css.abaImg :(this.css.abaImg !== undefined) ? this.css.abaImg :"https://cloud.githubusercontent.com/assets/2848147/11349727/6e8955aa-920c-11e5-8c59-85cb684bf00c.png";
 
 			try{
 				this.csseame(container);
