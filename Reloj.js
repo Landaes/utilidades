@@ -26,8 +26,9 @@ si quieres contactarme para felicitarme, darme las gracias, invitarme a comer he
 		Reloj.doStyle(obj,"#container");
 		
 	*Explicación: Este objeto puede recibir los siguientes parámetros: fontSize, paddingTop, height, width, fixForCenter, marginTop, marginLeft, marginRight, marginBottom, backgroundColor, backgroundColorLuz, backgroundColorSombra, border, borderColor, borderRadiusInner, borderRadiusOuter, shadow, color, altoLineaMedio, fontSizeCharacterSpecial, fixForCenterSpecial, widthSpecial, escalaNumFinales, arrImg, abaImg.
+	pueden ser valores numéricos ej: 20 o puede nser valores en pixeles ej: "20px" cuando corresponda. En el mismo código está explicado para qué sirven c/u.
 
-	-Reemplacé el evento por un callback a una función mejor.
+	-Reemplacé el evento por un callback a una función.
 
 
 	20 enero 2016
