@@ -10,6 +10,7 @@
   0. You just DO WHAT THE FUCK YOU WANT TO.
   
  nov 2015
+ 
 Creada por su servidor, su amigable y guapo vecino el Formidable Señor Landaes.
 si quieres contactarme:
 	donaire.luis@gmail.com
@@ -17,66 +18,117 @@ si quieres contactarme:
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 	UPDATES:
+	22 enero 2016
+	-El 'css' lo integré dentro del mismo objeto Reloj, es decir ahora tiene valores por defecto que se pueden cambiar en tiempo de ejecución de la siguiente forma:
+		
+		var obj = {}; // <-- este objeto lo explico en seguida*
+		
+		Reloj.doStyle(obj,"#container");
+		
+	*Explicación: Este objeto puede recibir los siguientes parámetros: fontSize, paddingTop, height, width, fixForCenter, marginTop, marginLeft, marginRight, marginBottom, backgroundColor, backgroundColorLuz, backgroundColorSombra, border, borderColor, borderRadiusInner, borderRadiusOuter, shadow, color, altoLineaMedio, fontSizeCharacterSpecial, fixForCenterSpecial, widthSpecial, escalaNumFinales, arrImg, abaImg.
+
+	-Reemplacé el evento por un callback a una función mejor.
+
+
 	20 enero 2016
-	Eliminé todas las referencias explícitas del tipo: Reloj.nombreFuncion, por this.nombreFuncion dentro del mismo objeto.
-	
+	-Eliminé todas las referencias explícitas del tipo: Reloj.nombreFuncion, por this.nombreFuncion dentro del mismo objeto.
+
 	25 nov 2015:
-	En el caso del reloj en cuenta regresiva, hice que despachara un evento cuando termina.
-	Se accede de la siguiente forma:
-
-		Si quieres acceder desde el body: (es el comportamiento por default)
-			document.body.addEventListener("END_TIME_REVERSED", Reloj.onStopTime, true);
-
-		Si quieres que el listener esté más acotado, entonces comenta la línea anterior en el código y en la función 'cuentaRegresiva' descomenta:
-
-		 // document.getElementById(container.substring(1)).addEventListener("END_TIME_REVERSED", Reloj.onStopTime, false);
-
-		En ambos casos el listener es Reloj.onStopTime, pero por supuesto, tu puedes poner el listener que se te dé la gana.
+	-En el caso del reloj en cuenta regresiva, hice que despachara un evento cuando termina. (DEPRECADO, ya no existe, lo reemplacé como ya dije por un callback)
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 */
-"use strict";
-// console.log("e");
-var css = {
-	fontSize:"132px",							// tamaño de la fuente
-	paddingTop:"0px",							// para la meyor parte de las fuentes dejar en 0
-	height:"132px",								// altura del rectángulo interior
-	width:"96px",								// ancho del rectángulo interior
-	fixForCenter:"-20px",						// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
-	marginTop:"0px",							// casi siempre en 0, distancia entre rectángulos
-	marginLeft:"0px",							// casi siempre en 0, distancia entre rectángulos
-	marginRight:"5px",							// distancia entre rectángulos
-	marginBottom:"0px",							// casi siempre en 0, distancia entre rectángulos
-	backgroundColor:"#282828",					// color dominante del rectángulo (puede ser rgba())
-	backgroundColorLuz:"#494949",				// color ligeramente brillante del rectángulo (puede ser rgba())
-	backgroundColorSombra:"#060606",			// color ligeramente oscuro del rectángulo (puede ser rgba())
-	border:"4px",								// tamaño del borde
-	borderColor:"#000",							// color del borde
-	borderRadiusInner:"6px",					// radio de borde del rectángulo interno
-	borderRadiusOuter:"10px",					// radio de borde del rectángulo externo (lo hice así para conseguir distintos efectos);
-	shadow:"2px 2px 10px rgba(0, 0, 0, 0.6)",	// parametros de box shadow del rectángulo externo
-	color:"#FFFFFF",							// color de la fuente
-	altoLineaMedio:2,							// espacio de separación entre la parte de arriba y la de abajo (puede ser 0)
-	fontSizeCharacterSpecial:"40px",			// tamaño fuente del caracter especial (en casi todos los casos es ':' sin las comillas)
-	fixForCenterSpecial:"-5px",					// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
-	widthSpecial:"20px",						// ancho del caracter especial (en casi todos los casos es ':' sin las comillas)
-	escalaNumFinales:0.5,						// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
-	arrImg:"img/backArr.png",					// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
-	abaImg:"img/backAba.png"					// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
-};
-
-var tiempoGiro = 0.8;							// valor en segundos, recomiendo no cambiar (con otros valores queda raro).
 
 var Reloj = {
+	tiempoGiro:0.8,// valor en segundos, recomiendo no cambiar (con otros valores queda raro).
 	chars:[],
+	doStyle:function(css, container){
+		if(this.css === undefined){
+			this.css = (css !== undefined) ? css : {};
+		}
+		if(css !== undefined ){
+			// tamaño de la fuente
+			this.css.fontSize = (css.fontSize !== undefined) ? css.fontSize : (this.css.fontSize !== undefined) ? this.css.fontSize : 132;
+
+			// para la mayor parte de las fuentes dejar en 0
+			this.css.paddingTop = (css.paddingTop !== undefined) ? css.paddingTop :(this.css.paddingTop !== undefined) ? this.css.paddingTop : 0;
+
+			// altura del rectángulo interior	
+			this.css.height = (css.height !== undefined) ? css.height :(this.css.height !== undefined) ? this.css.height : 140;
+
+			// ancho del rectángulo interior
+			this.css.width = (css.width !== undefined) ? css.width :(this.css.width !== undefined) ? this.css.width :100;
+
+			// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente
+			this.css.fixForCenter = (css.fixForCenter !== undefined) ? css.fixForCenter :(this.css.fixForCenter !== undefined) ? this.css.fixForCenter :-20;
+
+			// casi siempre en 0, distancia entre rectángulos
+			this.css.marginTop = (css.marginTop !== undefined) ? css.marginTop :(this.css.marginTop !== undefined) ? this.css.marginTop :0;
+			this.css.marginLeft = (css.marginLeft !== undefined) ? css.marginLeft :(this.css.marginLeft !== undefined) ? this.css.marginLeft :0;
+			this.css.marginRight = (css.marginRight !== undefined) ? css.marginRight :(this.css.marginRight !== undefined) ? this.css.marginRight :0;
+			this.css.marginBottom = (css.marginBottom !== undefined) ? css.marginBottom :(this.css.marginBottom !== undefined) ? this.css.marginBottom :0;	
+
+			// color dominante del rectángulo (puede ser rgba())
+			this.css.backgroundColor = (css.backgroundColor !== undefined) ? css.backgroundColor :(this.css.backgroundColor !== undefined) ? this.css.backgroundColor :"#282828";
+
+			// color ligeramente brillante del rectángulo (puede ser rgba())	
+			this.css.backgroundColorLuz = (css.backgroundColorLuz !== undefined) ? css.backgroundColorLuz :(this.css.backgroundColorLuz !== undefined) ? this.css.backgroundColorLuz :"#494949";
+
+			// color ligeramente oscuro del rectángulo (puede ser rgba())
+			this.css.backgroundColorSombra = (css.backgroundColorSombra !== undefined) ? css.backgroundColorSombra :(this.css.backgroundColorSombra !== undefined) ? this.css.backgroundColorSombra :"#060606";
+
+			// tamaño del borde
+			this.css.border = (css.border !== undefined) ? css.border :(this.css.border !== undefined) ? this.css.border :4;
+
+			// color del borde
+			this.css.borderColor = (css.borderColor !== undefined) ? css.borderColor :(this.css.borderColor !== undefined) ? this.css.borderColor :"#000";
+
+			// radio de borde del rectángulo interno. Sólo valores en pixeles. 
+			this.css.borderRadiusInner = (css.borderRadiusInner !== undefined) ? css.borderRadiusInner :(this.css.borderRadiusInner !== undefined) ? this.css.borderRadiusInner :6;
+
+			// radio de borde del rectángulo externo (lo hice así para conseguir distintos efectos). Sólo valores en pixeles.;
+			this.css.borderRadiusOuter = (css.borderRadiusOuter !== undefined) ? css.borderRadiusOuter :(this.css.borderRadiusOuter !== undefined) ? this.css.borderRadiusOuter :10;
+
+			// parámetros de box shadow del rectángulo externo
+			this.css.shadow = (css.shadow !== undefined) ? css.shadow :(this.css.shadow !== undefined) ? this.css.shadow :"2px 2px 10px rgba(0, 0, 0, 0.6)";
+
+			// color de la fuente
+			this.css.color = (css.color !== undefined) ? css.color :(this.css.color !== undefined) ? this.css.color : "#FFF";
+
+			// espacio de separación entre la parte de arriba y la de abajo (puede ser 0)
+			this.css.altoLineaMedio = (css.altoLineaMedio !== undefined) ? css.altoLineaMedio :(this.css.altoLineaMedio !== undefined) ? this.css.altoLineaMedio :2;
+
+			// tamaño fuente del caracter especial (en casi todos los casos es ':' sin las comillas)
+			this.css.fontSizeCharacterSpecial = (css.fontSizeCharacterSpecial !== undefined) ? css.fontSizeCharacterSpecial :(this.css.fontSizeCharacterSpecial !== undefined) ? this.css.fontSizeCharacterSpecial :40;
+
+			// cantidad de pixeles casi siempre en negativo para centrar verticalmente la fuente del caracter especial
+			this.css.fixForCenterSpecial = (css.fixForCenterSpecial !== undefined) ? css.fixForCenterSpecial :(this.css.fixForCenterSpecial !== undefined) ? this.css.fixForCenterSpecial :-5;
+
+			// ancho del caracter especial (en casi todos los casos es ':' sin las comillas)
+			this.css.widthSpecial = (css.widthSpecial !== undefined) ? css.widthSpecial :(this.css.widthSpecial !== undefined) ? this.css.widthSpecial :20;
+
+			// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
+			this.css.escalaNumFinales = (css.escalaNumFinales !== undefined) ? css.escalaNumFinales :(this.css.escalaNumFinales !== undefined) ? this.css.escalaNumFinales :0.5;
+
+			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
+			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"img/backArr.png";
+
+			// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
+			this.css.abaImg = (css.abaImg !== undefined) ? css.abaImg :(this.css.abaImg !== undefined) ? this.css.abaImg :"img/backAba.png";
+
+			try{
+				this.csseame(container);
+			} catch (err){
+				console.log(err.message);
+			}
+		}
+	},
 	texto:function(container){
-		// console.log(this);
 		$("#text").keydown(function(e) {
 			// e.preventDefault();
 		});
 
 		$("#text").keyup(function(e) {
-			// console.log(this);
 			e.preventDefault();
 			var text = $("#text").val();
 			var chars = text.split("");
@@ -89,7 +141,6 @@ var Reloj = {
 				}
 			}
 			for (var i = 0; i < chars.length; i++) {
-				// console.log("TEXT: "+text+" i: "+i);
 				this.creaCaracter(container,chars[i], i);
 			}
 			this.updateTexto(container,text);
@@ -111,67 +162,74 @@ var Reloj = {
 			$(container+" .rn"+i).append('<p class="pSpecial">'+char+'</p>');
 		}
 		
-		this.csseame(container);
+
+		if(this.css === undefined){
+			this.doStyle.apply(this,[undefined, container]);
+		} else {
+			this.doStyle.apply(this,[{}, container]);
+		}
 	},
 	csseame:function(container){
-		// reset previo
-		$(container +" div").css({"margin":"0", "padding":"0"});
-		$(container +" p").css({"margin":css.fixForCenter +" 0 0 0", "padding":"0"});
-		
-		$(container +" .caracterContainer").css({"color":css.color, "height":css.height,"width":css.width,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRight+" "+css.marginBottom+" "+css.marginLeft, "border":css.border +" solid "+css.borderColor,"border-radius":css.borderRadiusOuter, "box-shadow": css.shadow});
-
-		$(container +" .back").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":css.borderColor,"border-radius":css.borderRadiusOuter});
-		$(container +" .front").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":css.borderColor,"border-radius":css.borderRadiusOuter});
-
-		$(container +" .arr").css({
-			"backgroundColor":css.backgroundColor,
-			"text-align":"center", 
-			"height":(((parseInt(css.height)*0.5)-parseInt(css.paddingTop))-css.altoLineaMedio)+"px",
-			"position":"absolute", 
-			"width":"100%", 
-			"overflow":"hidden",
-			"margin-top":"0",
-			"border-radius":css.borderRadiusInner +" "+css.borderRadiusInner+" 0 0",
-			"padding":css.paddingTop+" 0 0 0",
-			"background-image": "url('"+css.arrImg+"')",
-    		"background-position": "bottom center",
-    		"background-size": "cover"
-			});
-
-		$(container +" .aba").css({
-			"backgroundColor":css.backgroundColor,
-			"text-align":"center",
-			"height":((parseInt(css.height)*0.5)-parseInt(css.paddingTop))+"px",
-			"position":"absolute",
-			"width":"100%",
-			"overflow":"hidden",
-			"margin-top":(parseInt(css.height)*0.5)+"px",
-			"border-radius":"0 0 "+css.borderRadiusInner +" "+css.borderRadiusInner,
-			"padding":css.paddingTop+" 0 0 0",
-			"background-image": "url('"+css.abaImg+"')",
-    		"background-position": "top center",
-    		"background-size": "cover"
-		});
-
-		$(container +" .aba .fix").css({"margin-top":"-"+(parseInt(css.height)*0.5 - parseInt(css.fixForCenter))+"px"});
-
-		$(container +" .caracterContainerSpecial").css({"color":css.color, "height":css.height,"width":css.widthSpecial,"float":"left", "position":"relative", "font-size":css.fontSize, margin:css.marginTop +" "+css.marginRight+" "+css.marginBottom+" "+css.marginLeft, "text-shadow": css.shadow});
-
-		var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
-		var medio = parseInt(css.height)*0.5 + parseInt(css.border) - hSpecial*0.5 + parseInt(css.fixForCenterSpecial);
-		$(container +" .caracterContainerSpecial .pSpecial").css({"text-align":"center", "font-size":css.fontSizeCharacterSpecial, "margin-top":medio+"px"});
-		
-		$(container +" .escalado").each(function(i){
-			var val = 1 - css.escalaNumFinales;
-			var mr = (((i*parseInt(css.width))*val)+(parseInt(css.marginLeft)*val))*-1;
-			console.log("hola: "+mr);
-			TweenMax.set($(this),{scale:css.escalaNumFinales, marginLeft:mr+"px", transformOrigin:"top left"});
-		});
-
+	        // reset previo
+	        $(container +" div").css({"margin":"0", "padding":"0"});
+	        $(container +" p").css({"margin":parseInt(this.css.fixForCenter) +"px 0 0 0", "padding":"0"});
+	        
+	        $(container +" .caracterContainer").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.width),"float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "border":parseInt(this.css.border) +"px solid "+this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px", "box-shadow": this.css.shadow});
+	
+	        $(container +" .back").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
+	        $(container +" .front").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
+	
+	        $(container +" .arr").css({
+	            "backgroundColor":this.css.backgroundColor,
+	            "text-align":"center", 
+	            "height":(((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))-this.css.altoLineaMedio)+"px",
+	            "position":"absolute", 
+	            "width":"100%", 
+	            "overflow":"hidden",
+	            "margin-top":"0",
+	            "border-radius":parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+" 0 0",
+	            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
+	            "background-image": "url('"+this.css.arrImg+"')",
+	            "background-position": "bottom center",
+	            "background-size": "cover"
+	            });
+	
+	        $(container +" .aba").css({
+	            "backgroundColor":this.css.backgroundColor,
+	            "text-align":"center",
+	            "height":((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))+"px",
+	            "position":"absolute",
+	            "width":"100%",
+	            "overflow":"hidden",
+	            "margin-top":(parseInt(this.css.height)*0.5)+"px",
+	            "border-radius":"0 0 "+parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+"px",
+	            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
+	            "background-image": "url('"+this.css.abaImg+"')",
+	            "background-position": "top center",
+	            "background-size": "cover"
+	        });
+	
+	        $(container +" .aba .fix").css({"margin-top":"-"+(parseInt(this.css.height)*0.5 - parseInt(this.css.fixForCenter))+"px"});
+	
+	        $(container +" .caracterContainerSpecial").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.widthSpecial)+"px","float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "text-shadow": this.css.shadow});
+	
+	        var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
+	        var medio = parseInt(this.css.height)*0.5 + parseInt(this.css.border) - hSpecial*0.5 + parseInt(this.css.fixForCenterSpecial);
+	        $(container +" .caracterContainerSpecial .pSpecial").css({"text-align":"center", "font-size":parseInt(this.css.fontSizeCharacterSpecial)+"px", "margin-top":medio+"px"});
+	        
+	        var self = this; 
+	        $(container +" .escalado").each(function(i){
+	            var val = 1 - self.css.escalaNumFinales;
+	            var mr = (((i*parseInt(self.css.width))*val)+(parseInt(self.css.marginLeft)*val))*-1;
+	             
+	            TweenMax.set($(this),{scale:self.css.escalaNumFinales, marginLeft:mr+"px", transformOrigin:"top left"});
+	        });
+	
 	},
-	creaReloj:function(container, regresivo, fecha){
+	creaReloj:function(container, regresivo, fecha, callback){
 		if(regresivo){
 			this.chars = this.dameLaHoraFutura(fecha).split("");
+			this.callback = callback;
 		} else {
 			this.chars = this.dameLaHora().split("");
 		}
@@ -180,7 +238,6 @@ var Reloj = {
 			if(this.chars[i] == ":"){
 				this.creaCaracter(container,this.chars[i], i, true);
 			} else {
-				console.log(i + " / " + this.chars.length);
 				if(i == this.chars.length-2 || i == this.chars.length-1){
 					this.creaCaracter(container,this.chars[i], i, false, true);
 				} else {
@@ -188,11 +245,11 @@ var Reloj = {
 				}
 			}
 		}
-		this.csseame(container);
+
+		this.csseame.call(this,container);
 
 		if(regresivo){
-			
-			this.updateRegresivo(container, fecha);
+			this.updateRegresivo(container, fecha, callback);
 		} else {
 			this.updateHora(container);
 		}
@@ -206,19 +263,16 @@ var Reloj = {
 	},
 	intervalRegresivo: null,
 	updateRegresivo:function(container, fecha){
-		// console.log("antes");
 		this.updateTexto(container, this.cuentaRegresiva(container, fecha));
-		console.log(this);
 		if(this.intervalRegresivo === null){
 			var fn = function(){
 				this.updateRegresivo(container, fecha);
 			};
-			
 			this.intervalRegresivo = setInterval(fn.bind(this),1000);
 		}
 	},
-	creaCuentaRegresiva:function(container, horas, minutos, segundos){
-		if(horas === undefined){			horas = 0;		}
+	creaCuentaRegresiva:function(container, horas, minutos, segundos, callback){
+		if(horas === undefined){		horas = 0;		}
 		if(minutos === undefined){		minutos = 0;	}
 		if(segundos === undefined){		segundos = 0;	}
 		var fecha=new Date(); // esto es hoy a esta hora
@@ -228,11 +282,10 @@ var Reloj = {
 		fecha.setHours(h+horas); // le sumo la horas que quiero
 		fecha.setMinutes(m+minutos); // le sumo los minutos que quiero
 		fecha.setSeconds(s+segundos); // le sumo los segundos que quiero
-		// console.log(fecha);
-		this.creaReloj(container, true, fecha);
+		
+		this.creaReloj(container, true, fecha, callback);
 	},
 	cuentaRegresiva:function(container, fecha){
-		// console.log("fecha " + fecha);
 	    var hoy=new Date();
 	    var d=0; //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    var h=0;
@@ -250,9 +303,9 @@ var Reloj = {
 	        s=Math.floor(diferencia);
 	    } else {
 	    	clearTimeout(this.intervalRegresivo);
-	    	var despacha = new CustomEvent("END_TIME_REVERSED");
-            // document.getElementById(container.substring(1)).addEventListener("END_TIME_REVERSED", Reloj.onStopTime, false);
-            document.getElementById(container.substring(1)).dispatchEvent(despacha);
+	    	if(typeof(this.callback) === "function"){
+	    		this.callback();
+	    	}
 	    }
 	    d = this.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    h = this.daFormatoHora(h);
@@ -282,22 +335,22 @@ var Reloj = {
 
 		a1.children("p").text(char.toString());
 		
-		TweenMax.set(b1,{rotationX:0,transformStyle:"preserve-3d",  transformOrigin:"top center", backgroundColor:css.backgroundColor});
-		TweenMax.set(a2,{rotationX:90,transformStyle:"preserve-3d", transformOrigin:"top center", backgroundColor:css.backgroundColorLuz});
+		TweenMax.set(b1,{rotationX:0,transformStyle:"preserve-3d",  transformOrigin:"top center", backgroundColor:this.css.backgroundColor});
+		TweenMax.set(a2,{rotationX:90,transformStyle:"preserve-3d", transformOrigin:"top center", backgroundColor:this.css.backgroundColorLuz});
 
-		a1.css("background-color", css.backgroundColor);
-		b2.css("background-color", css.backgroundColor);
+		a1.css("background-color", this.css.backgroundColor);
+		b2.css("background-color", this.css.backgroundColor);
 		
-		TweenMax.to(b1, tiempoGiro*0.5,{rotationX:90,transformStyle:"preserve-3d", transformOrigin:"bottom center", backgroundColor:css.backgroundColorSombra, ease:Quart.easeIn, onComplete:function(){
+		TweenMax.to(b1, this.tiempoGiro*0.5,{rotationX:90,transformStyle:"preserve-3d", transformOrigin:"bottom center", backgroundColor:this.css.backgroundColorSombra, ease:Quart.easeIn, onComplete:function(self){
 			a2.css("z-index","4");
 			b1.css("z-index","2");
 			b2.css("z-index","3");
 			a2.children("p").text(char.toString());
 			b1.children("p").text(char.toString());
-			TweenMax.to(a2, tiempoGiro*0.5,{rotationX:0,transformStyle:"preserve-3d", ease:Quart.easeOut, backgroundColor:css.backgroundColor, onComplete:function(){
+			TweenMax.to(a2, self.tiempoGiro*0.5,{rotationX:0,transformStyle:"preserve-3d", ease:Quart.easeOut, backgroundColor:self.css.backgroundColor, onComplete:function(){
 				b2.children("p").text(char.toString());
 			}});
-		}});
+		},onCompleteParams:[this]});
 
 	},
 	daFormatoHora:function(i) {
@@ -317,7 +370,7 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	},
 	dameLaHoraFutura:function(fecha){
-		console.log(fecha);
+		// console.log(fecha);
 	    var h=fecha.getHours();
 	    var m=fecha.getMinutes();
 	    var s=fecha.getSeconds();
@@ -327,41 +380,15 @@ var Reloj = {
 	    // return h+":"+m+":"+s;
 	    return h.toString()+":"+m.toString()+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
-	},
-	onStopTime:function(e){
-		e = e || event;
-		console.log(e);
-		alert("fin del tiempo");
-		//var target = e.target || e.srcElement;
-		//console.log(target);
 	}
 };
-
-document.body.addEventListener("END_TIME_REVERSED", Reloj.onStopTime, true);
-
-
-// ↓↓↓↓ lo siguiente es un polyfill para explorer 9 en adelante ↓↓↓↓
-(function () {
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
-
-  CustomEvent.prototype = window.Event.prototype;
-
-  window.CustomEvent = CustomEvent;
-})();
-// ↑↑↑↑ hasta acá ↑↑↑↑
-
 
 $(document).ready(function(){
 	// Si quieres crear un reloj normal pasas el div contenedor
 	// Reloj.creaReloj("#container");
 	
 	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 0 minutos y 10 segundos a partir de ahora)
-	Reloj.creaCuentaRegresiva("#container", 0, 0, 10);
+	Reloj.creaCuentaRegresiva("#container", 0, 0, 10, function(){alert("Feliz año nuevo");}); 
 	
 	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
 	// y llamas a la función texto
