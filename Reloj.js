@@ -12,7 +12,7 @@
  nov 2015
  
 Creada por su servidor, su amigable y guapo vecino el Formidable Señor Landaes.
-si quieres contactarme:
+si quieres contactarme para felicitarme, darme las gracias, invitarme a comer helado o corregir algún bug:
 	donaire.luis@gmail.com
 	@luisinlandaes
 
