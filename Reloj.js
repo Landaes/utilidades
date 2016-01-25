@@ -317,7 +317,7 @@ var Reloj = {
 	updateTexto:function(container,st){
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
-			if(tempChars[i] != Reloj.chars[i]){
+			if(tempChars[i] != this.chars[i]){
 				this.updateChar(container,i,tempChars[i]);
 				this.chars[i] = tempChars[i];
 			}
