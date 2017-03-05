@@ -52,7 +52,7 @@ var Randomize = {
         }
         return new_obj;
     },
-	getKeys: function (obj){
+    getKeys: function (obj){
         var arr = new Array();
         for (var key in obj){
             arr.push(key);
@@ -82,6 +82,8 @@ var Randomize = {
 
 // Las voy a poner dentro de la variable Front que uso siempre
 // Todo funciona con JQuery y TweenMax
+// DEBO ACTUALIZAR ESTO PRONTO, todas las funciones han mejorado.
+//  ¯\_(ツ)_/¯
 
 var Front = {
 	utils = {
