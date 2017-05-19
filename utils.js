@@ -352,3 +352,24 @@ var Preload = {
 
     }
 };
+
+var Utils = {
+	parseNumeroConPuntos:function(st){
+        var reversed = st.split("").reverse().join("");
+        var finalST;
+        var partes = [];
+        for (var i = 0; i < reversed.length; i += 3) {
+            var tmp = reversed.substring(i, i+3);
+            var goodtmp = tmp.split("").reverse().join("") + ".";
+            partes.push(goodtmp);
+        }
+
+        finalST = partes.reverse().join("");
+
+        var n = finalST.lastIndexOf(".");
+
+        finalST = finalST.substring(0,n);
+
+        return "$"+finalST;
+    }
+};
