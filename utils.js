@@ -371,5 +371,153 @@ var Utils = {
         finalST = finalST.substring(0,n);
 
         return "$"+finalST;
+    },
+	scroll:function(div,dif,time){
+        var offset = div.offset();
+        if(dif === undefined){
+            dif = 0;
+        }
+        if(time === undefined){
+            time = 1;
+        }
+        // console.log(offset.top);
+        TweenMax.to(window,time,{scrollTo:{y:offset.top - dif}});
+    },
+    isNumberKey:function(event){
+        var key = window.event ? event.keyCode : event.which;
+        if (event.keyCode == 8 || event.keyCode == 46 || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+        } else if ( key < 48 || key > 57 ) {
+            return false;
+        } 
+        else return true;
+    },
+    validaRut:function(rut){
+        var rutCompleto = this.reformatRut(rut);
+        rutCompleto = rutCompleto.split(".").join("");
+        if (!/^[0-9]+-[0-9kK]{1}$/.test( rutCompleto )){
+            return false;
+        }
+        var tmp     = rutCompleto.split('-');
+        var digv    = tmp[1]; 
+        var rutN    = tmp[0];
+        if(digv == 'K') { 
+            digv = 'k';
+        }
+        return (this.dv(rutN) == digv);
+    },
+    dv:function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10)){
+            S=(S+T%10*(9-M++%6))%11;
+        }
+        return S?S-1:'k';
+    },
+    reformatRut:function(rutN){
+        var rut,rutTMP,rutVer;
+        rutN = rutN.split('.').join("");
+        if(rutN.charAt(rutN.length-2) == "-"){
+            rut = rutN;
+        } else {
+            rutTMP = rutN.substring(0,rutN.length-1);
+            rutVer = rutN.charAt(rutN.length-1);
+            rut = rutTMP + "-" + rutVer;
+        }
+        var part1, part2, part3;
+
+        part1 = rut.substring(rut.length-5,rut.length);
+        part2 = rut.substring(rut.length-8,rut.length-5);
+        part3 = rut.substring(0,rut.length-8);
+
+        return part3+"."+part2+"."+part1;
+    },
+    showErrors:function(cual){
+        TweenMax.fromTo(cual,0.2,{scale:1, backgroundColor:"#ffffff"},{scale:1.01,backgroundColor:"red", repeat:3, yoyo:true});
+    },
+    showErrorsRadio:function(cual){
+        TweenMax.fromTo(cual,0.2,{scale:1, backgroundColor:"#ffffff"},{scale:1.01,backgroundColor:"red", repeat:3, yoyo:true});
+    },
+    validaMail:function(emailAddress){
+        var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+        return pattern.test(emailAddress);
+    },
+    calcularEdad:function(dia, mes, ano){
+        fecha_hoy = new Date();
+        ahora_ano = fecha_hoy.getYear();
+        ahora_mes = fecha_hoy.getMonth();
+        ahora_dia = fecha_hoy.getDate();
+        edad = (ahora_ano + 1900) - ano;
+            
+        if ( ahora_mes < (mes)){
+          edad--;
+        }
+        if ((mes == ahora_mes) && (ahora_dia < dia)){ 
+          edad--;
+        }
+        if (edad > 1900){
+            edad -= 1900;
+        }
+
+        var meses = 0;
+        if(ahora_mes > mes)
+            meses = ahora_mes-mes;
+        if(ahora_mes < mes)
+            meses = 12 - (mes - ahora_mes);
+        if(ahora_mes == mes && dia > ahora_dia)
+            meses = 11;
+ 
+        var dias = 0;
+        if(ahora_dia > dia)
+            dias = ahora_dia - dia;
+        if(ahora_dia < dia)
+        {
+           var ultimoDiaMes = new Date(ahora_ano, ahora_mes, 0);
+            dias = ultimoDiaMes.getDate() - (dia - ahora_dia);
+        }
+        return [edad,meses,dias];
+    },
+    isMobile: function(){
+        var isMobile = false; //initiate as false
+        if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))){isMobile = true;} 
+        
+        return isMobile;
+    },
+    parsePrecio:function(valor){
+        var st = valor.toString();
+        st = st.replace(".",",");
+        var i = st.indexOf(",");
+        var final = st.substring(i,st.length);
+        var medio = st.substring(i-3,i);
+        var inicio = st.substring(0,i-3);        
+
+        return inicio+"."+medio/*+final*/;
+    },
+    parseTelefono:function(st){
+        var part1, part2, part3;
+
+        part1 = st.substring(st.length-2,st.length);
+        part2 = st.substring(st.length-4,st.length-2);
+        part3 = st.substring(st.length-7,st.length-4);
+        part4 = st.substring(0,st.length-7);
+
+        console.log(part4, part3, part2, part1);
+
+        return part4 + " " + part3 + " " + part2 + " "+ part1;
+    },
+	checkForExplorer:function(){
+        if (/MSIE 10/i.test(navigator.userAgent)) {
+           // This is internet explorer 10
+           $("html").addClass("ie");
+        }
+
+        if (/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
+            // This is internet explorer 9 or 11
+            $("html").addClass("ie");
+        }
+
+        if (/Edge\/\d./i.test(navigator.userAgent)){
+           // This is Microsoft Edge
+           $("html").addClass("ie");
+        }
     }
 };
