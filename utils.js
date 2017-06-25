@@ -504,7 +504,7 @@ var Utils = {
 
         return part4 + " " + part3 + " " + part2 + " "+ part1;
     },
-	checkForExplorer:function(){
+    checkForExplorer:function(){
         if (/MSIE 10/i.test(navigator.userAgent)) {
            // This is internet explorer 10
            $("html").addClass("ie");
@@ -518,6 +518,15 @@ var Utils = {
         if (/Edge\/\d./i.test(navigator.userAgent)){
            // This is Microsoft Edge
            $("html").addClass("ie");
+        }
+    },
+    llenarSelectTelefonos:function(div){
+        var codes = ["código",9, 2, 32, 33, 34, 35, 41, 42, 43, 45, 51, 52, 53, 55, 57, 58, 61, 63, 64, 65, 67, 71, 72, 73, 75];
+        //<option value="02">02</option>
+
+        for (var i = 0; i < codes.length; i++) {
+            // codes[i]
+            div.append("<option value='"+codes[i]+"'>"+codes[i]+"</option>");
         }
     }
 };
