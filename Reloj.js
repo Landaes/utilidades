@@ -114,7 +114,7 @@ var Reloj = {
 			this.css.widthSpecial = (css.widthSpecial !== undefined) ? css.widthSpecial :(this.css.widthSpecial !== undefined) ? this.css.widthSpecial :20;
 
 			// escala de los segunderos (si quieres todos los caracteres iguales, setea esto en 1)
-			this.css.escalaNumFinales = (css.escalaNumFinales !== undefined) ? css.escalaNumFinales :(this.css.escalaNumFinales !== undefined) ? this.css.escalaNumFinales :0.5;
+			this.css.escalaNumFinales = (css.escalaNumFinales !== undefined) ? css.escalaNumFinales :(this.css.escalaNumFinales !== undefined) ? this.css.escalaNumFinales :1;
 
 			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
 			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"https://cloud.githubusercontent.com/assets/2848147/11349728/6e8bf3be-920c-11e5-82d9-651bca022e64.png";
@@ -226,7 +226,8 @@ var Reloj = {
 	        var self = this; 
 	        $(container +" .escalado").each(function(i){
 	            var val = 1 - self.css.escalaNumFinales;
-	            var mr = (((i*parseInt(self.css.width))*val)+(parseInt(self.css.marginLeft)*val))*-1;
+                //if(self.css.escalaNumFinales == 1){val = 1;}
+	            var mr = ((((i*parseInt(self.css.width))*val)+(parseInt(self.css.marginLeft)*val)+(parseInt(self.css.border)*val))*-1)+self.css.marginLeft*val;
 	             
 	            TweenMax.set($(this),{scale:self.css.escalaNumFinales, marginLeft:mr+"px", transformOrigin:"top left"});
 	        });
@@ -273,7 +274,7 @@ var Reloj = {
 		this.updateTexto(container, this.cuentaRegresiva(container, fecha, callback));
 
 		if(reloop){
-            console.log("LLAMADO: ",this,this.intervalRegresivo);
+//            console.log("LLAMADO: ",this,this.intervalRegresivo);
 			var fn = function(){
 				this.updateRegresivo(false, container, fecha, callback);
 			};
@@ -323,7 +324,7 @@ var Reloj = {
 	    h = this.daFormatoHora(h);
 	    m = this.daFormatoHora(m);
 	    s = this.daFormatoHora(s);
-	    return h.toString()+":"+m.toString()+s.toString();
+	    return h.toString()+":"+m.toString()+":"+s.toString();
 	},
 	updateTexto:function(container,st){
 		var tempChars = st.split("");
@@ -378,7 +379,7 @@ var Reloj = {
 	    m = this.daFormatoHora(m);
 	    s = this.daFormatoHora(s);
 	    // return h+":"+m+":"+s;
-	    return h.toString()+":"+m.toString()+s.toString();
+	    return h.toString()+":"+m.toString()+":"+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
 	},
 	dameLaHoraFutura:function(fecha){
@@ -390,7 +391,7 @@ var Reloj = {
 	    m = this.daFormatoHora(m);
 	    s = this.daFormatoHora(s);
 	    // return h+":"+m+":"+s;
-	    return h.toString()+":"+m.toString()+s.toString();
+	    return h.toString()+":"+m.toString()+":"+s.toString();
 	    // return h.toString()+m.toString()+s.toString();
 	}
 };
