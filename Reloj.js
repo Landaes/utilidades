@@ -13,6 +13,7 @@
  
 Creada por su servidor, su amigable y guapo vecino el Formidable Señor Landaes.
 si quieres contactarme para felicitarme, darme las gracias, invitarme a comer helado o corregir algún bug:
+	http://www.landaes.cl
 	donaire.luis@gmail.com
 	@luisinlandaes
 
