@@ -18,6 +18,10 @@ si quieres contactarme para felicitarme, darme las gracias, invitarme a comer he
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 	UPDATES:
+	25 febrero 2018
+	-La función de cuenta regresiva está mejorada.
+	(antes no finalizaba correctamente)
+	
 	22 enero 2016
 	-El 'css' lo integré dentro del mismo objeto Reloj, es decir ahora tiene valores por defecto que se pueden cambiar en tiempo de ejecución de la siguiente forma:
 		
@@ -230,7 +234,7 @@ var Reloj = {
 	creaReloj:function(container, regresivo, fecha, callback){
 		if(regresivo){
 			this.chars = this.dameLaHoraFutura(fecha).split("");
-			this.callback = callback;
+//			this.callback = callback;
 		} else {
 			this.chars = this.dameLaHora().split("");
 		}
@@ -250,7 +254,8 @@ var Reloj = {
 		this.csseame.call(this,container);
 
 		if(regresivo){
-			this.updateRegresivo(container, fecha, callback);
+            //console.log("en crea reloj", fecha.getSeconds());
+			this.updateRegresivo(true,container, fecha, callback);
 		} else {
 			this.updateHora(container);
 		}
@@ -262,14 +267,17 @@ var Reloj = {
 		};
 		var t = setTimeout(fn.bind(this),1000);
 	},
-	intervalRegresivo: null,
-	updateRegresivo:function(container, fecha){
-		this.updateTexto(container, this.cuentaRegresiva(container, fecha));
-		if(this.intervalRegresivo === null){
+	intervalRegresivo: undefined,
+	updateRegresivo:function(reloop,container, fecha, callback){
+		this.updateTexto(container, this.cuentaRegresiva(container, fecha, callback));
+
+		if(reloop){
+            console.log("LLAMADO: ",this,this.intervalRegresivo);
 			var fn = function(){
-				this.updateRegresivo(container, fecha);
+				this.updateRegresivo(false, container, fecha, callback);
 			};
 			this.intervalRegresivo = setInterval(fn.bind(this),1000);
+//			this.intervalRegresivo = setTimeout(fn.bind(this),1000);
 		}
 	},
 	creaCuentaRegresiva:function(container, horas, minutos, segundos, callback){
@@ -286,13 +294,14 @@ var Reloj = {
 		
 		this.creaReloj(container, true, fecha, callback);
 	},
-	cuentaRegresiva:function(container, fecha){
-	    var hoy=new Date();
+	cuentaRegresiva:function(container, fecha, callback){
+	    var hoy = new Date();
 	    var d=0; //por si acaso ↦ voy a implementarlo con días la próxima vez
 	    var h=0;
 	    var m=0;
 	    var s=0;
-
+        
+        
 	    if (fecha>hoy){
 	        var diferencia=(fecha.getTime()-hoy.getTime())/1000;
 	        d=Math.floor(diferencia/86400);//por si acaso ↦ voy a implementarlo con días la próxima vez
@@ -303,9 +312,10 @@ var Reloj = {
 	        diferencia=diferencia-(60*m);
 	        s=Math.floor(diferencia);
 	    } else {
-	    	clearTimeout(this.intervalRegresivo);
-	    	if(typeof(this.callback) === "function"){
-	    		this.callback();
+            clearInterval(this.intervalRegresivo);
+	    	if(typeof(callback) === "function"){
+                
+	    		callback();
 	    	}
 	    }
 	    d = this.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
@@ -383,7 +393,6 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	}
 };
-
 $(document).ready(function(){
 	// Si quieres crear un reloj normal pasas el div contenedor
 	Reloj.creaReloj("#container");
