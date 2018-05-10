@@ -19,6 +19,9 @@ si quieres contactarme para felicitarme, darme las gracias, invitarme a comer he
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 	UPDATES:
+	10 marzo 2018
+	-Pequeño problema de visualización de corner-radius solucionado.
+	
 	25 febrero 2018
 	-La función de cuenta regresiva está mejorada.
 	(antes no finalizaba correctamente)
