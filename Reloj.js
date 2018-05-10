@@ -155,8 +155,11 @@ var Reloj = {
 	},
 	creaCaracter:function(container,char,i, special, seEscala) {
 		var childs = $(container).children("div").length;
+        
+//        console.log("el hijo existe",$(container +" .rn"+i).length);
 
-		if(i<childs){$(container +" .rn"+i).show(); return;}
+//		if(i<childs){$(container +" .rn"+i).show(); return;}
+		if($(container +" .rn"+i).length > 0){$(container +" .rn"+i).show(); return;}
 		if(!special){
 			$(container).append("<div class='rn"+i+" caracterContainer'></div>");
 			$(container+" .rn"+i).append('<div class="back"><div class="arr"><p>'+char+'</p></div><div class="aba"><p class="fix">'+char+'</p></div></div><div class="front"><div class="arr"><p>'+char+'</p></div><div class="aba"><p class="fix">'+char+'</p></div></div>');
@@ -176,61 +179,65 @@ var Reloj = {
 		}
 	},
 	csseame:function(container){
-	        // reset previo
-	        $(container +" div").css({"margin":"0", "padding":"0"});
-	        $(container +" p").css({"margin":parseInt(this.css.fixForCenter) +"px 0 0 0", "padding":"0"});
-	        
-	        $(container +" .caracterContainer").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.width),"float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "border":parseInt(this.css.border) +"px solid "+this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px", "box-shadow": this.css.shadow});
-	
-	        $(container +" .back").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
-	        $(container +" .front").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
-	
-	        $(container +" .arr").css({
-	            "backgroundColor":this.css.backgroundColor,
-	            "text-align":"center", 
-	            "height":(((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))-this.css.altoLineaMedio)+"px",
-	            "position":"absolute", 
-	            "width":"100%", 
-	            "overflow":"hidden",
-	            "margin-top":"0",
-	            "border-radius":parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+" 0 0",
-	            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
-	            "background-image": "url('"+this.css.arrImg+"')",
-	            "background-position": "bottom center",
-	            "background-size": "cover"
-	            });
-	
-	        $(container +" .aba").css({
-	            "backgroundColor":this.css.backgroundColor,
-	            "text-align":"center",
-	            "height":((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))+"px",
-	            "position":"absolute",
-	            "width":"100%",
-	            "overflow":"hidden",
-	            "margin-top":(parseInt(this.css.height)*0.5)+"px",
-	            "border-radius":"0 0 "+parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+"px",
-	            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
-	            "background-image": "url('"+this.css.abaImg+"')",
-	            "background-position": "top center",
-	            "background-size": "cover"
-	        });
-	
-	        $(container +" .aba .fix").css({"margin-top":"-"+(parseInt(this.css.height)*0.5 - parseInt(this.css.fixForCenter))+"px"});
-	
-	        $(container +" .caracterContainerSpecial").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.widthSpecial)+"px","float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "text-shadow": this.css.shadow});
-	
-	        var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
-	        var medio = parseInt(this.css.height)*0.5 + parseInt(this.css.border) - hSpecial*0.5 + parseInt(this.css.fixForCenterSpecial);
-	        $(container +" .caracterContainerSpecial .pSpecial").css({"text-align":"center", "font-size":parseInt(this.css.fontSizeCharacterSpecial)+"px", "margin-top":medio+"px"});
-	        
-	        var self = this; 
-	        $(container +" .escalado").each(function(i){
-	            var val = 1 - self.css.escalaNumFinales;
-                //if(self.css.escalaNumFinales == 1){val = 1;}
-	            var mr = ((((i*parseInt(self.css.width))*val)+(parseInt(self.css.marginLeft)*val)+(parseInt(self.css.border)*val))*-1)+self.css.marginLeft*val;
-	             
-	            TweenMax.set($(this),{scale:self.css.escalaNumFinales, marginLeft:mr+"px", transformOrigin:"top left"});
-	        });
+        // reset previo
+        $(container +" div").css({"margin":"0", "padding":"0"});
+        $(container +" p").css({"margin":parseInt(this.css.fixForCenter) +"px 0 0 0", "padding":"0"});
+
+        $(container +" .caracterContainer").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.width),"float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "border":parseInt(this.css.border) +"px solid "+this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px", "box-shadow": this.css.shadow,"backgroundColor":this.css.borderColor,"box-sizing": "content-box"});
+
+        $(container +" .back").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
+        $(container +" .front").css({"height":"100%","position":"absolute", "width":"100%", "backgroundColor":this.css.borderColor,"border-radius":parseInt(this.css.borderRadiusOuter)+"px"});
+
+        $(container +" .arr").css({
+            "backgroundColor":this.css.backgroundColor,
+            "text-align":"center", 
+            "height":(((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))-this.css.altoLineaMedio)+"px",
+            "position":"absolute", 
+            "width":"100%", 
+            "overflow":"hidden",
+            "margin-top":"0",
+            "border-radius":parseInt(this.css.borderRadiusInner).toString() +"px "+parseInt(this.css.borderRadiusInner).toString()+"px 0 0",
+            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
+//	            "background-image": "url('"+this.css.arrImg+"')",
+            "background-position": "bottom center",
+            "background-size": "cover"
+            });
+
+        $(container +" .aba").css({
+            "backgroundColor":this.css.backgroundColor,
+            "text-align":"center",
+            "height":((parseInt(this.css.height)*0.5)-parseInt(this.css.paddingTop))+"px",
+            "position":"absolute",
+            "width":"100%",
+            "overflow":"hidden",
+            "margin-top":(parseInt(this.css.height)*0.5)+"px",
+            "border-radius":"0 0 "+parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+"px",
+            "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
+//	            "background-image": "url('"+this.css.abaImg+"')",
+            "background-position": "top center",
+            "background-size": "cover"
+        });
+
+        $(container +" .aba .fix").css({"margin-top":"-"+(parseInt(this.css.height)*0.5 - parseInt(this.css.fixForCenter))+"px"});
+
+        $(container +" .caracterContainerSpecial").css({"color":this.css.color, "height":parseInt(this.css.height),"width":parseInt(this.css.widthSpecial)+"px","float":"left", "position":"relative", "font-size":parseInt(this.css.fontSize)+"px", margin:parseInt(this.css.marginTop) +"px "+parseInt(this.css.marginRight)+"px "+parseInt(this.css.marginBottom)+"px "+parseInt(this.css.marginLeft)+"px", "text-shadow": this.css.shadow});
+
+        var hSpecial = $(container +" .caracterContainerSpecial .pSpecial").height();
+        var medio = parseInt(this.css.height)*0.5 + parseInt(this.css.border) - hSpecial*0.5 + parseInt(this.css.fixForCenterSpecial);
+        $(container +" .caracterContainerSpecial .pSpecial").css({"text-align":"center", "font-size":parseInt(this.css.fontSizeCharacterSpecial)+"px", "margin-top":medio+"px"});
+
+
+        if($(container + " #escala_reloj").length < 1 && $(container +" .escalado").length === 2){
+            var div = $("<div/>", {
+                id: 'escala_reloj'
+            });
+            $(container +" .escalado").wrapAll('<div id="escala_reloj"></div>');
+            $("#escala_reloj").css({
+                "position":"relative",
+                "float":"left"
+            });
+        }
+        TweenMax.set("#escala_reloj",{scale:this.css.escalaNumFinales,transformOrigin:"top left"});
 	
 	},
 	creaReloj:function(container, regresivo, fecha, callback){
@@ -316,7 +323,6 @@ var Reloj = {
 	    } else {
             clearInterval(this.intervalRegresivo);
 	    	if(typeof(callback) === "function"){
-                
 	    		callback();
 	    	}
 	    }
@@ -326,6 +332,18 @@ var Reloj = {
 	    s = this.daFormatoHora(s);
 	    return h.toString()+":"+m.toString()+":"+s.toString();
 	},
+    killRegresivo:function(callback){
+        clearInterval(this.intervalRegresivo);
+        if(typeof(callback) === "function"){
+	    	callback();
+	    }
+    },
+    dameSegundos:function(){
+        var arrHMS = this.chars.join("").split(":");
+        var segundos;
+        segundos = ((parseInt(arrHMS[0])*60)*60) + (parseInt(arrHMS[1])*60) + parseInt(arrHMS[2]);
+        return segundos;
+    },
 	updateTexto:function(container,st){
 		var tempChars = st.split("");
 		for (var i = 0; i < tempChars.length; i++) {
@@ -402,7 +420,5 @@ $(document).ready(function(){
 	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 1 minutos y 10 segundos a partir de ahora)
 	// Reloj.creaCuentaRegresiva("#container", 0, 1, 10, function(){alert("Feliz año nuevo");}); 
 	
-	// si por otro lado quieres hacer lo mismo pero con cualquier letra, en tu html debes tener un input text con id "text"
-	// y llamas a la función texto
-	// Reloj.texto("#container");
+	
 });
