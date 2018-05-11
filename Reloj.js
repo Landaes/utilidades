@@ -14,11 +14,16 @@
 Creada por su servidor, su amigable y guapo vecino el Formidable Señor Landaes.
 si quieres contactarme para felicitarme, darme las gracias, invitarme a comer helado o corregir algún bug:
 	http://www.landaes.cl
+	configuración y explicación en www.landaes.cl/utils/reloj.html
 	donaire.luis@gmail.com
 	@luisinlandaes
 
 ⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓⎓
 	UPDATES:
+	11 marzo 2018
+	-Repuse el custom event, es mucho mejor que el callback.
+	-Mejoré la visualización con flex en css, ahora se adapta
+
 	10 marzo 2018
 	-Pequeño problema de visualización de corner-radius solucionado.
 	
@@ -120,10 +125,10 @@ var Reloj = {
 			this.css.escalaNumFinales = (css.escalaNumFinales !== undefined) ? css.escalaNumFinales :(this.css.escalaNumFinales !== undefined) ? this.css.escalaNumFinales :1;
 
 			// imagen opcional de la parte de arriba, se puede conseguir un mejor efecto 
-			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"https://cloud.githubusercontent.com/assets/2848147/11349728/6e8bf3be-920c-11e5-82d9-651bca022e64.png";
+			this.css.arrImg = (css.arrImg !== undefined) ? css.arrImg :(this.css.arrImg !== undefined) ? this.css.arrImg :"none";
 
 			// imagen opcional de la parte de abajo, se puede conseguir un mejor efecto
-			this.css.abaImg = (css.abaImg !== undefined) ? css.abaImg :(this.css.abaImg !== undefined) ? this.css.abaImg :"https://cloud.githubusercontent.com/assets/2848147/11349727/6e8955aa-920c-11e5-8c59-85cb684bf00c.png";
+			this.css.abaImg = (css.abaImg !== undefined) ? css.abaImg :(this.css.abaImg !== undefined) ? this.css.abaImg :"none";
 
 			try{
 				this.csseame(container);
@@ -183,6 +188,13 @@ var Reloj = {
 	},
 	csseame:function(container){
         // reset previo
+        
+        $(container).css({
+            "display": "flex",
+            "justify-content": "center",
+            "height": this.css.height + this.css.border*2
+            
+        });
         $(container +" div").css({"margin":"0", "padding":"0"});
         $(container +" p").css({"margin":parseInt(this.css.fixForCenter) +"px 0 0 0", "padding":"0"});
 
@@ -201,7 +213,7 @@ var Reloj = {
             "margin-top":"0",
             "border-radius":parseInt(this.css.borderRadiusInner).toString() +"px "+parseInt(this.css.borderRadiusInner).toString()+"px 0 0",
             "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
-//	            "background-image": "url('"+this.css.arrImg+"')",
+	        "background-image": "url('"+this.css.arrImg+"')",
             "background-position": "bottom center",
             "background-size": "cover"
             });
@@ -216,7 +228,7 @@ var Reloj = {
             "margin-top":(parseInt(this.css.height)*0.5)+"px",
             "border-radius":"0 0 "+parseInt(this.css.borderRadiusInner) +"px "+parseInt(this.css.borderRadiusInner)+"px",
             "padding":parseInt(this.css.paddingTop)+"px 0 0 0",
-//	            "background-image": "url('"+this.css.abaImg+"')",
+	        "background-image": "url('"+this.css.abaImg+"')",
             "background-position": "top center",
             "background-size": "cover"
         });
@@ -239,6 +251,19 @@ var Reloj = {
                 "position":"relative",
                 "float":"left"
             });
+        }
+        $(container + " #escala_reloj").css({
+            "width": this.css.width*2+this.css.border*2+this.css.marginLeft*2+this.css.marginRight*2 +"px",
+            "display": "flex",
+            "justify-content": "center"
+        });
+        var ancho_parent = $(container).parent().width();
+        var ancho_reloj = this.css.width*6+this.css.border*6+this.css.marginLeft*8+this.css.marginRight*8+this.css.widthSpecial*2;
+        console.log(ancho_parent,ancho_reloj);
+        if(ancho_parent<ancho_reloj && ancho_parent<768){
+            $(container + " #escala_reloj").css({
+            "width": "32%"
+        });
         }
         TweenMax.set("#escala_reloj",{scale:this.css.escalaNumFinales,transformOrigin:"top left"});
 	
@@ -327,6 +352,12 @@ var Reloj = {
             clearInterval(this.intervalRegresivo);
 	    	if(typeof(callback) === "function"){
 	    		callback();
+                var event = new CustomEvent("END_TIME", {
+                  detail: {
+                    notime: true
+                  }
+                });
+                document.dispatchEvent(event);
 	    	}
 	    }
 	    d = this.daFormatoHora(d); //por si acaso ↦ voy a implementarlo con días la próxima vez
@@ -416,12 +447,19 @@ var Reloj = {
 	    // return h.toString()+m.toString()+s.toString();
 	}
 };
-$(document).ready(function(){
-	// Si quieres crear un reloj normal pasas el div contenedor
-	Reloj.creaReloj("#container");
-	
-	// si quieres crea una cuenta regresiva pasas el div, horas, minutos y segundos (en el ejemplo es 0 horas 1 minutos y 10 segundos a partir de ahora)
-	// Reloj.creaCuentaRegresiva("#container", 0, 1, 10, function(){alert("Feliz año nuevo");}); 
-	
-	
-});
+(function () {
+
+  if ( typeof window.CustomEvent === "function" ) return false;
+
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+
